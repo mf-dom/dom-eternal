@@ -1,10 +1,10 @@
 {
     "name": "MF-DOM",
     "description": "Lorem ipsum",
-    "version": "0.1.0",
+    "version": "1.1",
     "manifest_version": 2,
     "background": {
-        "scripts": ["./background.js"]
+        "Persistent": false
     },
     "options_page": "./options.html",
     "devtools_page": "devtools-src/devtools.html",
@@ -17,7 +17,7 @@
             "128": "assets/tmp_logo128.png"
         }
     },
-    "permissions": ["debugger", "experimental"],
+    "permissions": ["debugger"],
     "icons": {
         "16": "assets/tmp_logo16.png",
         "32": "assets/tmp_logo32.png",
