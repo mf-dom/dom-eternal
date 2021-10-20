@@ -1,0 +1,27 @@
+{
+  "name": "dom-eternal-devtools",
+  "version": "1.0.0",
+  "description": "devtools for dom eternal!",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "cd packages/chrome && cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mf-dom/dom-eternal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mf-dom/dom-eternal/issues"
+  },
+  "homepage": "https://github.com/mf-dom/dom-eternal#readme",
+  "devDependencies": {
+    "webpack": "^5.59.0",
+    "webpack-cli": "^4.9.1"
+  }
+}

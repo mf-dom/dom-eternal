@@ -1,0 +1,9 @@
+{
+    "name": "@dom-eternal-devtools/fuzzer",
+    "version": "0.0.0",
+    "scripts": {
+      "build": "rm -rf ./build && cross-env NODE_ENV=production webpack --progress"
+    },
+    "dependencies": {
+    }
+}
