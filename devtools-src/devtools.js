@@ -1,1 +1,0 @@
-chrome.devtools.panels.create("MF-DOM","assets/tmp_logo128.png","devtools-src/panel.html", null);
