@@ -1,0 +1,27 @@
+{
+    "name": "MF-DOM",
+    "description": "Lorem ipsum",
+    "version": "1.1",
+    "manifest_version": 2,
+    "background": {
+        "Persistent": false
+    },
+    "options_page": "./options.html",
+    "devtools_page": "devtools-src/devtools.html",
+    "browser_action": {
+        "default_popup": "popup-src/popup.html",
+        "default_icon": {
+            "16": "assets/tmp_logo16.png",
+            "32": "assets/tmp_logo32.png",
+            "48": "assets/tmp_logo48.png",
+            "128": "assets/tmp_logo128.png"
+        }
+    },
+    "permissions": ["debugger"],
+    "icons": {
+        "16": "assets/tmp_logo16.png",
+        "32": "assets/tmp_logo32.png",
+        "48": "assets/tmp_logo48.png",
+        "128": "assets/tmp_logo128.png"
+    }
+}
