@@ -7,9 +7,9 @@
         "Persistent": false
     },
     "options_page": "./options.html",
-    "devtools_page": "devtools/devtools.html",
+    "devtools_page": "src/devtools/devtools.html",
     "browser_action": {
-        "default_popup": "popup/popup.html",
+        "default_popup": "src/popup/popup.html",
         "default_icon": {
             "16": "../../assets/tmp_logo16.png",
             "32": "../../assets/tmp_logo32.png",

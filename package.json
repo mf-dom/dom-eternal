@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "cd packages/chrome && cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build:chrome": "cd packages/chrome && cross-env NODE_ENV=production webpack --watch"
   },
   "repository": {
     "type": "git",
