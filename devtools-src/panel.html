@@ -1,53 +1,40 @@
-<style>
-.centerH {
-
-    margin: auto;
-    padding: 10px;
-    width: 50%;
-}
-
-.centerV{
-  margin: auto;
-  padding: 10px;
-  top: 50%;
-}
-
-.buttonSW {
-  padding:1em;
-}
-  
-  
-</style>
-
-  
-
-
 <!DOCTYPE html>
+<link rel="stylesheet" href="panel.css">
 <html>
-<head>
-<title>Recording</title>
-</head>
-<body>
-<h1>Recording</h1>
-<div class="center">
-  <div class="centerH" id = "timerDiv">00:00:00</div>
+    <body>
+        <div class="toolbar">
+            <div class="toolSubSection">
+                <button class="toolItem toolButton" id="recordBtn">Record</button>
+                <button class="toolItem toolButton" id="stopBtn">Stop</button>
+            </div>
+            <div class="toolSubSection">
+                <button class="toolItem toolButton" id="filterBtn">Filter</button>
+                <input class="toolItem" type="text" placeholder="Search..." id="searchInp"/>
+                <!--
+                    <div style="display:inline-flex;">
+                        <input class="toolItem" type="text" placeholder="Search..." id="searchInp"/>
+                        <button class="toolItem toolButton" id="searchBtn">GO</button>
+                    </div>
+                -->
+            </div>
+            <div class="toolSubSection">
+                <button class="toolItem toolButton" id="deleteBtn">Delete</button>
+                <button class="toolItem toolButton" id="exportBtn">Export</button>
+                <button class="toolItem toolButton" id="randomAddBtn">Add Random Function - for dev purposes</button>
+            </div>
+        </div>
+        <div style="width:100%;">
+            <table id="resultsTable">
+                <tr>
+                    <th>Function Name</th>
+                    <th>Function Signature</th>
+                    <th>Mutation Causer</th>
+                </tr>
+                <tbody id="resultsTableBody">
 
-  <div class="centerH"> 
-    <button class = "center" id="startRecordingButton">Start Recording</button>
-  </div>
-  <div>
-    <button class="buttonSW" id="stopRecordingButton">Stop</button>
-    <button class="buttonSW" id="pauseRecordingButton">Pause Recording</button>
-    <button class="buttonSW" id="resetRecordingButton">Reset Recording</button>
-    <button class="buttonSW" id="resumeRecordingButton">Resume Recording</button>
-  </div>
-</div>
-
-<!--<div  class = "center"> Click <input type="image" name="Name of image button" src = "../assets/tmp_logo32.png"/>   to </div> -->
-
-<script src="panel.js"></script>
-</body>
+                </tbody>
+            </table>
+        </div>
+    <script src="panel.js"></script> 
+    </body>
 </html>
-
-
-
