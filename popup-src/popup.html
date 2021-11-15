@@ -1,10 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
 
-    </head>
-    <body>
-        "im the popup"
-        <script src="popup.js"></script>
-    </body>
+<head>
+    <style>
+        body {
+            margin: 0;
+            width: 250px;
+            height: 400px;
+            position: relative;
+            text-align: center;
+        }
+
+        .recordbtn {
+            top: 10%;
+            margin: auto;
+            position: absolute;
+            width: 100%;
+        }
+
+        .stopbtn {
+            top: 17%;
+            margin: auto;
+            position: absolute;
+            width: 100%;
+        }
+
+        .bottomthing {
+            position: absolute;
+            bottom: 0px;
+            display: flex;
+            border-top: 1px solid black;
+            width: 90%;
+            justify-content: space-between;
+            padding: 3% 5%;
+        }
+
+        .function-count-text {
+            font-size: 15px;
+        }
+
+        /* .settingsbtn {
+
+        } */
+
+        #stopwatch {
+            font-size: 60px;
+            top: 30%;
+            position: absolute;
+            margin: auto;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="recordbtn">
+        <button type="button" id="recordbtn">Record</button>
+    </div>
+    <div class="stopbtn">
+        <button type="button" id="stopbtn">Stop</button>
+    </div>
+    <div id="stopwatch">
+        0:00
+    </div>
+    <div class="bottomthing">
+            <div id="function-count-text">
+                3 functions recorded
+            </div>
+            <div id="settingsbtn">
+                <input type="image" src="../assets/settings-outline.svg" style="width: 20px; height: 20x;" id="settings"/>
+            </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
 </html>
