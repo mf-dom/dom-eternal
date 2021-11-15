@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            width: 250px;
+            height: 400px;
+            position: relative;
+        }
+        
+        #topthing {
+            position: absolute;
+            top: 0px;
+            border-bottom: 1px solid black;
+            width: 100%;
+        }
+
+        #top-top {
+            top: 0px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        #top-bot {
+            bottom: 0px;
+            display: flex;
+            justify-content: left;
+        }
+
+        #results-list {
+            top: 12%;
+            position: relative;
+        }
+
+        #results-list label {
+            float: left;
+        }
+
+        #results-list ul {
+            margin: 0;
+            list-style: none;
+            float: left;
+            text-align: left;
+        }
+
+        #search-button {
+            width: 20px; 
+            height: 20x;
+        }
+
+        #filter-button {
+            width: 20px; 
+            height: 20x;
+        }
+
+        #settings-button {
+            width: 20px; 
+            height: 20x;
+        }
+    </style>
+</head>
+<body>
+    <div id="topthing">
+        <div id="top-top">
+            <input type="image" src="../assets/search.svg" id="search-button">
+            <input type="search" id="search-input">
+        </div>
+        <div id="top-bot">
+            <input type="checkbox" id="select-all">
+            <input type="image" src="../assets/funnel.svg" id="filter-button">
+            <button type="submit" id="fuzz-button">Fuzz</button>
+            <input type="image" src="../assets/settings-outline.svg" id="settings-button">
+        </div>
+    </div>
+    <div id="results-list">
+        <ul>
+            <li><label><input type="checkbox">bad_func</label></li>
+            <li><label><input type="checkbox">xss_vuln_func</label></li>
+            <li><label><input type="checkbox">hello_world_func</label></li>
+        </ul>
+    </div>
+    <script src="results.js"></script>
+</body>
+</html>

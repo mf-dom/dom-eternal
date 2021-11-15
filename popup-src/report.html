@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            width: 250px;
+            height: 400px;
+            text-align: center;
+        }
+
+        #fuzzed input {
+            height: 120px;
+            width: 120px;
+            filter: invert(71%) sepia(47%) saturate(7384%) hue-rotate(86deg) brightness(117%) contrast(128%);
+        }
+
+        #xss input {
+            height: 120px;
+            width: 120px;
+            filter: invert(20%) sepia(69%) saturate(6565%) hue-rotate(355deg) brightness(110%) contrast(125%);
+        }
+
+        #fuzzed-text {
+            font-size: 17px;
+        }
+
+        #xss-text {
+            font-size: 17px;
+        }
+
+        #devtools-results img {
+            height: 20px;
+            width: 20px;
+        }
+
+        #devtools-results {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="fuzzed">
+        <input type="image" src="../assets/checkmark-circle.svg">
+        <p id="fuzzed-text">3 functions fuzzed</p>
+    </div>
+    <div id="xss">
+        <input type="image" src="../assets/warning.svg">
+        <p id="xss-text">2 DOM mutations discovered</p>
+    </div>
+    <div id="devtools-results">
+        <p><img src="../assets/f12-button.svg">to open developer tools to see detailed results</p>
+    </div>
+</body>
+</html>

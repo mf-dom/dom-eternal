@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     stop.addEventListener("click", function() {
-
+        window.location.href = "results.html";
     });
 
     settings.addEventListener("click", function() {

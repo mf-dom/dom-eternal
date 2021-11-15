@@ -1,6 +1,6 @@
 {
-    "name": "MF-DOM",
-    "description": "Lorem ipsum",
+    "name": "DOM Eternal",
+    "description": "An XSS fuzzer capable of detecting runtime XSS vulnerabilites.",
     "version": "1.1",
     "manifest_version": 2,
     "background": {
@@ -9,19 +9,13 @@
     "options_page": "./options.html",
     "devtools_page": "devtools-src/devtools.html",
     "browser_action": {
-        "default_popup": "popup-src/popup.html",
-        "default_icon": {
-            "16": "assets/tmp_logo16.png",
-            "32": "assets/tmp_logo32.png",
-            "48": "assets/tmp_logo48.png",
-            "128": "assets/tmp_logo128.png"
-        }
+        "default_popup": "popup-src/popup.html"
     },
     "permissions": ["debugger"],
     "icons": {
-        "16": "assets/tmp_logo16.png",
-        "32": "assets/tmp_logo32.png",
-        "48": "assets/tmp_logo48.png",
-        "128": "assets/tmp_logo128.png"
+        "16": "assets/code-slash-16-16.png",
+        "32": "assets/code-slash-32-32.png",
+        "48": "assets/code-slash-48-48.png",
+        "128": "assets/code-slash-128-128.png"
     }
 }
