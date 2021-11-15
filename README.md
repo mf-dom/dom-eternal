@@ -1,3 +1,17 @@
 # MutatorFuzz - DOM(Document Object Model)
-> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non ipsum sit amet mauris aliquet maximus at nec elit. Nunc. (description here)
+---
+# Installation
 
+```
+git clone js-input-generator
+cd js-input-generator
+npm install
+npm run prepare
+cd webpack-test
+npm install
+npm run build
+cd dist
+python3 -m http.server
+```
+
+# Usage
