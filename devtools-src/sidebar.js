@@ -1,1 +1,0 @@
-alert('sidebar code say ey yo');
