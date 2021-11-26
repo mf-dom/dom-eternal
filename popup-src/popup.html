@@ -51,6 +51,21 @@
         #function-count-text {
             font-size: 15px;
         }
+
+        #info {
+            height: 20px;
+            width: 20px;
+            position: relative;
+            top: 10px;
+        }
+
+        #infobtn {
+            top: 80%;
+            position: absolute;
+            display: flex;
+            justify-content:center;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -64,12 +79,16 @@
     <div id="stopwatch">
         0:00
     </div>
+    <div id="infobtn">
+        <input type="image" src="../assets/information-circle.svg" id="info">
+        <p>What is this?</p>
+    </div>
     <div class="bottomthing">
             <div id="function-count-text">
                 3 functions recorded
             </div>
             <div id="settingsbtn">
-                <input type="image" src="../assets/settings-outline.svg" id="settings"/>
+                <input type="image" src="../assets/settings-outline.svg" id="settings">
             </div>
     </div>
     <script src="popup.js"></script>

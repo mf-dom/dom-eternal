@@ -17,6 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     settings.addEventListener("click", function() {
-        window.location.href = "settings.html";
+        chrome.runtime.openOptionsPage();
     });
 });

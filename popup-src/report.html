@@ -32,14 +32,28 @@
         #devtools-results img {
             height: 20px;
             width: 20px;
+            position: relative;
+            top: 7px;
+            right: 2px;
         }
 
         #devtools-results {
             font-size: 12px;
         }
+
+        #home-btn input {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
     </style>
 </head>
 <body>
+    <div id="home-btn">
+        <input type="image" src="../assets/home-outline.svg">
+    </div>
     <div id="fuzzed">
         <input type="image" src="../assets/checkmark-circle.svg">
         <p id="fuzzed-text">3 functions fuzzed</p>
@@ -51,5 +65,6 @@
     <div id="devtools-results">
         <p><img src="../assets/f12-button.svg">to open developer tools to see detailed results</p>
     </div>
+    <script src="report.js"></script>
 </body>
 </html>

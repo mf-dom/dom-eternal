@@ -11,7 +11,7 @@
         
         #topthing {
             position: absolute;
-            top: 0px;
+            top: 2px;
             border-bottom: 1px solid black;
             width: 100%;
         }
@@ -25,12 +25,13 @@
         #top-bot {
             bottom: 0px;
             display: flex;
-            justify-content: left;
+            justify-content: space-between;
         }
 
         #results-list {
-            top: 12%;
-            position: relative;
+            top: 14%;
+            left: 0px;
+            position: absolute;
         }
 
         #results-list label {
@@ -44,19 +45,34 @@
             text-align: left;
         }
 
+        #search-input {
+            width: 85%;
+        }
+
         #search-button {
             width: 20px; 
-            height: 20x;
+            height: 20px;
         }
 
         #filter-button {
             width: 20px; 
-            height: 20x;
+            height: 20px;
+            position: relative;
+            top: 3px;
+            left: -2px;
         }
 
         #settings-button {
             width: 20px; 
-            height: 20x;
+            height: 20px;
+            position: relative;
+            right: 2px;
+            top: 3px;
+        }
+
+        #fuzz-button {
+            position: relative;
+            bottom: 2px;
         }
     </style>
 </head>
@@ -67,10 +83,14 @@
             <input type="search" id="search-input">
         </div>
         <div id="top-bot">
-            <input type="checkbox" id="select-all">
-            <input type="image" src="../assets/funnel.svg" id="filter-button">
-            <button type="submit" id="fuzz-button">Fuzz</button>
-            <input type="image" src="../assets/settings-outline.svg" id="settings-button">
+            <div>
+                <input type="checkbox" id="select-all" title="Select all">
+                <input type="image" src="../assets/funnel.svg" id="filter-button">
+            </div>
+            <div>
+                <button type="submit" id="fuzz-button" title="Fuzz selected items">Fuzz</button>
+                <input type="image" src="../assets/settings-outline.svg" id="settings-button">
+            </div>
         </div>
     </div>
     <div id="results-list">
