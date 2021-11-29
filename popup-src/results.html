@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
@@ -8,7 +9,7 @@
             height: 400px;
             position: relative;
         }
-        
+
         #topthing {
             position: absolute;
             top: 2px;
@@ -50,32 +51,48 @@
         }
 
         #search-button {
-            width: 20px; 
+            width: 20px;
             height: 20px;
+            pointer-events: None;
         }
 
         #filter-button {
-            width: 20px; 
+            width: 20px;
             height: 20px;
             position: relative;
             top: 3px;
             left: -2px;
         }
 
+        #filter-button:hover {
+            opacity: 50%;
+        }
+
         #settings-button {
-            width: 20px; 
+            width: 20px;
             height: 20px;
             position: relative;
             right: 2px;
             top: 3px;
         }
 
+        #settings-button:hover {
+            opacity: 50%;
+        }
+
         #fuzz-button {
             position: relative;
-            bottom: 2px;
+            top: 3px;
+            width: 21px;
+            height: 21px;
+        }
+
+        #fuzz-button:hover {
+            opacity: 50%;
         }
     </style>
 </head>
+
 <body>
     <div id="topthing">
         <div id="top-top">
@@ -88,18 +105,22 @@
                 <input type="image" src="../assets/funnel.svg" id="filter-button">
             </div>
             <div>
-                <button type="submit" id="fuzz-button" title="Fuzz selected items">Fuzz</button>
+                <input type="image" src="../assets/dice-outline.svg" id="fuzz-button" title="Fuzz selected items">
                 <input type="image" src="../assets/settings-outline.svg" id="settings-button">
             </div>
         </div>
     </div>
     <div id="results-list">
-        <ul>
-            <li><label><input type="checkbox">bad_func</label></li>
-            <li><label><input type="checkbox">xss_vuln_func</label></li>
-            <li><label><input type="checkbox">hello_world_func</label></li>
+        <ul id="results-ul">
+            <li><label><input type="checkbox" name="result_cb">bad_func</label></li>
+            <li><label><input type="checkbox" name="result_cb">xss_vuln_func</label></li>
+            <li><label><input type="checkbox" name="result_cb">hello_world_func</label></li>
+            <li><label><input type="checkbox" name="result_cb">ahhhhhhhhhhhH</label></li>
+            <li><label><input type="checkbox" name="result_cb">function_bad</label></li>
+            <li><label><input type="checkbox" name="result_cb">susFunc</label></li>
         </ul>
     </div>
     <script src="results.js"></script>
 </body>
+
 </html>
