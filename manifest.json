@@ -4,14 +4,21 @@
     "version": "1.1",
     "manifest_version": 2,
     "background": {
-        "Persistent": false
+        "scripts": [
+            "background.js"
+        ]
     },
     "options_page": "./options.html",
     "devtools_page": "devtools-src/devtools.html",
     "browser_action": {
         "default_popup": "popup-src/popup.html"
     },
-    "permissions": ["debugger"],
+    "permissions": [
+        "debugger",
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ],
     "icons": {
         "16": "assets/code-slash-16-16.png",
         "32": "assets/code-slash-32-32.png",
