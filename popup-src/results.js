@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const fuzz = document.getElementById("fuzz-button");
     const search_input = document.getElementById("search-input");
     const select_all = document.getElementById("select-all");
+    const results_ul = document.getElementById("results_ul");
+    let data = {};
 
     search_input.addEventListener("keyup", function () {
         var input, filter, ul, li, label, i, txtValue;
@@ -30,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     filter.addEventListener("click", function () {
-        
+
     });
 
     fuzz.addEventListener("click", function () {
@@ -40,4 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
     settings.addEventListener("click", function () {
         chrome.runtime.openOptionsPage();
     });
+
+    chrome.extension.onMessage.addListener(function(message, sender) {
+        console.log(message, sender)
+        data = message.data;
+
+    });
+    sendObjectFromPopup({action: 'getData'})
+
 });

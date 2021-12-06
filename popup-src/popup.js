@@ -25,4 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
     info.addEventListener("click", function() {
         window.location.href = "info.html";
     });
+
+    chrome.extension.onMessage.addListener(function(message, sender) {
+        console.log(message, sender)
+    });
+
+    sendObjectFromPopup({action: 'getData'})
 });

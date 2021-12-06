@@ -5,9 +5,9 @@
 	});
 
 	// Listen to messages from the background page
-	port.onMessage.addListener(function (message) {
-		port.postMessage(message);
-	});
+	// port.onMessage.addListener(function (message) {
+	// 	port.postMessage(message);
+	// });
 
 }());
 
