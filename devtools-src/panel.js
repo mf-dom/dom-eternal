@@ -38,7 +38,7 @@ function SearchSignatures(){
     for(i = 0; i<rows.length; ++i){
         let td = rows[i].getElementsByTagName("td")[1];
         if(td){
-            
+
             if(td.textContent.toLowerCase().indexOf(substring) > -1){ //show this row
                 rows[i].style.display = "";
             }else{
@@ -52,4 +52,20 @@ window.onload = function(e){
     document.getElementById("searchInp").addEventListener('change',SearchSignatures);
     document.getElementById("deleteBtn").addEventListener('click',DeleteAllResults);
     document.getElementById("randomAddBtn").addEventListener('click',AddRandomFunction);
+
+    const record = document.getElementById('recordBtn');
+    const stop = document.getElementById('stopBtn');
+
+    record.addEventListener("click", function() {
+        record.style.cursor = "not-allowed";
+        record.disabled = "true";
+        sendObjectFromDevTools({action: "start"});
+    });
+
+    stop.addEventListener("click", function() {
+        if (!confirm("Stop recording and see results?")) {
+            return;
+        }
+        sendObjectFromDevTools({action: "stop"});
+    });
 };

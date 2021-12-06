@@ -66,6 +66,13 @@
             justify-content:center;
             width: 100%;
         }
+
+        .note {
+            top: 60%;
+            position: absolute;
+            justify-content:center;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -79,13 +86,16 @@
     <div id="stopwatch">
         0:00
     </div>
+    <div class="note">
+        <strong>Note:</strong> Make sure the browser DevTools window is open prior to recording <kb>F12</kb>
+    </div>
     <div id="infobtn">
         <input type="image" src="../assets/information-circle.svg" id="info">
         <p>What is this?</p>
     </div>
     <div class="bottomthing">
             <div id="function-count-text">
-                3 functions recorded
+                <span id="numFunctions">0</span> functions recorded
             </div>
             <div id="settingsbtn">
                 <input type="image" src="../assets/settings-outline.svg" id="settings">
