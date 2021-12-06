@@ -8,6 +8,8 @@
             width: 250px;
             height: 400px;
             position: relative;
+            background-color: #0d1117;
+            color: #f0f6fcb3;
         }
 
         #topthing {
@@ -15,6 +17,7 @@
             top: 2px;
             border-bottom: 1px solid black;
             width: 100%;
+            background-color: #161b22;
         }
 
         #top-top {
@@ -43,17 +46,24 @@
             margin: 0;
             list-style: none;
             float: left;
+            width: 100%;
             text-align: left;
+            overflow-y: hidden;
+            overflow-y: scroll;
         }
 
         #search-input {
             width: 85%;
+            background-color: #21262d;
+            border-radius: 25px;
+            border: 0.5px solid #0d1117;
         }
 
         #search-button {
             width: 20px;
             height: 20px;
             pointer-events: None;
+            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
         #filter-button {
@@ -62,6 +72,7 @@
             position: relative;
             top: 3px;
             left: -2px;
+            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
         #filter-button:hover {
@@ -74,6 +85,7 @@
             position: relative;
             right: 2px;
             top: 3px;
+            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
         #settings-button:hover {
@@ -85,6 +97,7 @@
             top: 3px;
             width: 21px;
             height: 21px;
+            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
         #fuzz-button:hover {
@@ -102,7 +115,7 @@
         <div id="top-bot">
             <div>
                 <input type="checkbox" id="select-all" title="Select all">
-                <input type="image" src="../assets/funnel.svg" id="filter-button">
+                <input type="image" src="../assets/funnel-outline.svg" id="filter-button">
             </div>
             <div>
                 <input type="image" src="../assets/dice-outline.svg" id="fuzz-button" title="Fuzz selected items">
@@ -118,6 +131,7 @@
             <li><label><input type="checkbox" name="result_cb">ahhhhhhhhhhhH</label></li>
             <li><label><input type="checkbox" name="result_cb">function_bad</label></li>
             <li><label><input type="checkbox" name="result_cb">susFunc</label></li>
+            <li><label><input type="checkbox" name="result_cb">susFuncuaf342</label></li>
         </ul>
     </div>
     <script src="messaging.js"></script>

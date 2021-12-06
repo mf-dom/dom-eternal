@@ -9,6 +9,8 @@
             height: 400px;
             position: relative;
             text-align: center;
+            background-color: #0d1117;
+            color: #f0f6fcb3;
         }
 
         .recordbtn {
@@ -33,23 +35,27 @@
             width: 90%;
             justify-content: space-between;
             padding: 3% 5%;
+            background-color: #161b22;
         }
 
         #settingsbtn {
             height: 20px;
             width: 20px;
+            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
-        #stopwatch {
-            font-size: 80px;
+        #title {
+            font-size: 40px;
             top: 30%;
             position: absolute;
             margin: auto;
             width: 100%;
+            color: white;
         }
 
         #function-count-text {
             font-size: 15px;
+            color: white;
         }
 
         #info {
@@ -57,20 +63,62 @@
             width: 20px;
             position: relative;
             top: 10px;
+            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
         #infobtn {
             top: 80%;
             position: absolute;
             display: flex;
-            justify-content:center;
+            justify-content: center;
             width: 100%;
         }
 
         .note {
             top: 60%;
             position: absolute;
-            justify-content:center;
+            justify-content: center;
+            display: block;
+            width: 100%;
+        }
+
+        #recording {
+            display: none;
+            justify-content: center;
+            top: 50%;
+            position: absolute;
+            width: 100%;
+        }
+
+        #recording div {
+            width: 1rem;
+            height: 1rem;
+            margin: 2rem 0.3rem;
+            background: red;
+            border-radius: 50%;
+            animation: 0.9s bounce infinite alternate;
+        }
+
+        #recording div:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        #recording div:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes bounce {
+            to {
+                opacity: 0.3;
+                transform: translate3d(0, -1rem, 0);
+            }
+        }
+
+        #status {
+            display: none;
+            justify-content: center;
+            top: 65%;
+            position: absolute;
             width: 100%;
         }
     </style>
@@ -81,25 +129,33 @@
         <button type="button" id="recordbtn">Record</button>
     </div>
     <div class="stopbtn">
-        <button type="button" id="stopbtn">Stop</button>
+        <button type="button" id="stopbtn" disabled>Stop</button>
     </div>
-    <div id="stopwatch">
-        0:00
+    <div id="title">
+        DOM Eternal
     </div>
-    <div class="note">
+    <div id="recording">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="note" id="note">
         <strong>Note:</strong> Make sure the browser DevTools window is open prior to recording <kb>F12</kb>
     </div>
     <div id="infobtn">
         <input type="image" src="../assets/information-circle.svg" id="info">
         <p>What is this?</p>
     </div>
+    <div id="status">
+        initializing...
+    </div>
     <div class="bottomthing">
-            <div id="function-count-text">
-                <span id="numFunctions">0</span> functions recorded
-            </div>
-            <div id="settingsbtn">
-                <input type="image" src="../assets/settings-outline.svg" id="settings">
-            </div>
+        <div id="function-count-text">
+            <span id="numFunctions">0</span> functions recorded
+        </div>
+        <div id="settingsbtn">
+            <input type="image" src="../assets/settings-outline.svg" id="settings">
+        </div>
     </div>
     <script src="messaging.js"></script>
     <script src="popup.js"></script>
