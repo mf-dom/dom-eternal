@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const fuzz = document.getElementById("fuzz-button");
     const search_input = document.getElementById("search-input");
     const select_all = document.getElementById("select-all");
-    const results_ul = document.getElementById("results_ul");
-    let data = {};
 
     search_input.addEventListener("keyup", function () {
         var input, filter, ul, li, label, i, txtValue;
@@ -76,7 +74,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     chrome.extension.onMessage.addListener(function (message, sender) {
         console.log(message, sender)
-        data = message.data;
+        const { data } = message;
+        if (data.functions && data.functions.length > 0) {
+            while (document.getElementById("results-ul").firstChild) {
+                document.getElementById("results-ul").removeChild(document.getElementById("results-ul").firstChild);
+            }
+
+            data.functions.sort((a,b) => a.depth - b.depth).forEach(fun => {
+                let li = document.createElement("li");
+                let label = document.createElement("label");
+                let input = document.createElement("input");
+                input.type = "checkbox";
+                input.name = "result_cb";
+                label.appendChild(input);
+                label.append(fun.functionName + " - Depth: " + fun.depth);
+                label.title = "File: " + fun.url.split("/").slice(-1)[0];
+                li.appendChild(label);
+                document.getElementById("results-ul").appendChild(li);
+            });
+        } else {
+            document.getElementById("results-list").style.display = "none";
+            document.getElementById("no-results").style.display = "block";
+        }
 
     });
     sendObjectFromPopup({ action: 'getData' })

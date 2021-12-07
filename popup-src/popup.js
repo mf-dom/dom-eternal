@@ -4,8 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const settings = document.getElementById('settings');
     const info = document.getElementById("info");
 
-    record.addEventListener("click", function() {
-        recording = true;
+    function showRecordingState() {
         record.style.cursor = "not-allowed";
         record.disabled = true;
         document.getElementById('stopbtn').disabled = false;
@@ -13,13 +12,24 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('status').style.display = "block";
         document.getElementById('infobtn').style.display = "none";
         document.getElementById('note').style.display = "none";
+    }
+
+    record.addEventListener("click", function() {
         sendObjectFromPopup({action: "start"});
 
-        const status_messages = ['intializing...', 'sending message to devtools', 'starting instrumentation', 'recording...'];
-        for (var i=0; i < status_messages.length; i++) {
-            document.getElementById('status').innerHTML = status_messages[i];
-            // not sure how to sleep without crashing the extension
-        }
+        showRecordingState();
+
+        document.getElementById('status').innerText = 'intializing...';
+        setTimeout(() => {
+            document.getElementById('status').innerText = 'sending message to devtools';
+        }, 500);
+        setTimeout(() => {
+            document.getElementById('status').innerText = 'starting instrumentation';
+        }, 1000);
+        setTimeout(() => {
+            document.getElementById('status').innerText = 'recording...';
+        }, 2000);
+
     });
 
     stop.addEventListener("click", function() {
@@ -40,7 +50,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     chrome.extension.onMessage.addListener(function(message, sender) {
-        console.log(message, sender)
+        if (message.data && message.data.recording) {
+            showRecordingState();
+            document.getElementById('status').innerText = 'recording...';
+        }
+
+        if (message.data && message.data.functions) {
+            document.getElementById('numFunctions').innerText = message.data.functions.length;
+        }
+
+        if (message.data && message.data.doneRecording) {
+            window.location.href = "results.html";
+        }
     });
 
     sendObjectFromPopup({action: 'getData'})

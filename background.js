@@ -35,8 +35,17 @@ chrome.extension.onConnect.addListener(function (port) {
 					chrome.debugger.onEvent.addListener((debuggeeId, method, params) => {
 						console.log("EVENT", debuggeeId, method, params)
 						if (method === "Debugger.paused") {
-							console.table(params)
 							storedData[message.tabId].mutations.push(params)
+							const { asyncStackTrace } = params;
+							const labelledFrames = asyncStackTrace.callFrames.map((frame, depth) => ({...frame, depth}))
+							const filteredFrames = labelledFrames.filter(frame => frame.functionName && frame.functionName.indexOf('push') !== 0)
+							if (filteredFrames.length > 0) {
+								storedData[message.tabId].functions = storedData[message.tabId].functions || [];
+								storedData[message.tabId].functions = [...(new Set([...storedData[message.tabId].functions, ...filteredFrames].map(JSON.stringify)))].map(JSON.parse)
+							}
+
+							console.log("FUNCTIONS", storedData[message.tabId].functions)
+
 							chrome.debugger.sendCommand({tabId: message.tabId}, "Debugger.resume", {}, console.log)
 						}
 					});
@@ -53,6 +62,7 @@ chrome.extension.onConnect.addListener(function (port) {
 					console.log("For safety, network connections have been disabled", result)
 				});
 				storedData[message.tabId].recording = false;
+				storedData[message.tabId].doneRecording = true;
 				chrome.tabs.executeScript(message.tabId, { file: "scripts/stopRecordingMutations.js" });
 				console.log(storedData)
 			} else if (message.action === 'getData') {

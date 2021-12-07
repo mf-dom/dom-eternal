@@ -36,6 +36,7 @@
             top: 14%;
             left: 0px;
             position: absolute;
+            width: 100%;
         }
 
         #results-list label {
@@ -43,13 +44,13 @@
         }
 
         #results-list ul {
-            margin: 0;
             list-style: none;
-            float: left;
+            margin: 0;
             width: 100%;
             text-align: left;
-            overflow-y: hidden;
             overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
         }
 
         #search-input {
@@ -103,6 +104,15 @@
         #fuzz-button:hover {
             opacity: 50%;
         }
+
+        #no-results {
+            top: 40%;
+            position: absolute;
+            justify-content: center;
+            display: none;
+            width: 80%;
+            margin: auto;
+        }
     </style>
 </head>
 
@@ -125,14 +135,11 @@
     </div>
     <div id="results-list">
         <ul id="results-ul">
-            <li><label><input type="checkbox" name="result_cb">bad_func</label></li>
-            <li><label><input type="checkbox" name="result_cb">xss_vuln_func</label></li>
-            <li><label><input type="checkbox" name="result_cb">hello_world_func</label></li>
-            <li><label><input type="checkbox" name="result_cb">ahhhhhhhhhhhH</label></li>
-            <li><label><input type="checkbox" name="result_cb">function_bad</label></li>
-            <li><label><input type="checkbox" name="result_cb">susFunc</label></li>
-            <li><label><input type="checkbox" name="result_cb">susFuncuaf342</label></li>
+
         </ul>
+    </div>
+    <div id="no-results">
+        No results found - try recording interactions again in a new tab.
     </div>
     <script src="messaging.js"></script>
     <script src="results.js"></script>
