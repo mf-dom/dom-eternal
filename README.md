@@ -3,13 +3,14 @@ An XSS fuzzer capable of detecting runtime XSS vulnerabilites.
 ---
 # Installation
 
+1. Clone the repository.
 ```
 git clone https://github.com/mf-dom/dom-eternal.git
-In Google Chrome, go to chrome://extensions/.
-Click "Load unpacked" and find where you cloned the repository.
-Choose the dom-eternal directory.
-Done!
 ```
+2. In Google Chrome, go to chrome://extensions/.
+3. Click "Load unpacked" and find where you cloned the repository.
+4. Choose the dom-eternal directory.
+5. Done!
 
 # Design
 ```
@@ -28,7 +29,7 @@ We want to make contributing to this project as easy and transparent as possible
 - Becoming a maintainer
 
 ## Report bugs using Github's [issues](https://github.com/mf-dom/dom-eternal/issues)
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](); it's that easy!
+We use GitHub issues to track public bugs. Report a bug by opening a new issue. It's that easy!
 
 ## Write bug reports with detail, background, and sample code
 **Great Bug Reports** tend to have:
@@ -47,15 +48,12 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 * You can try using `Shift`+`Alt`+`F` in VS Code for style unification
 
 ## License
-By contributing, you agree that your contributions will be licensed under the MIT License.
+By contributing, you agree that your contributions will be licensed under the [MIT License](https://github.com/mf-dom/dom-eternal/blob/main/LICENSE).
 
 
 # Privacy Policy
 
-```
 We don't store your data, period.
 
 We physcially can't. We have nowhere to store it. We don't even have a server to store it. 
 DOM Eternal operates locally with no connections to any servers.
-
-```
