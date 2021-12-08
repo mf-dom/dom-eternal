@@ -13,7 +13,7 @@ git clone https://github.com/mf-dom/dom-eternal.git
 5. Done!
 
 # Design
-![System Architecture Diagram Picture](relative/assets/system-diagram.png?raw=true "System Architecture")
+![System Architecture Diagram Picture](assets/system-diagram.png?raw=true "System Architecture")
 
 # Contribution Guide
 Thank you for considering contributing to DOM Eternal!
