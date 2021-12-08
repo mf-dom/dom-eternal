@@ -6,7 +6,7 @@ function AddRandomFunction(){
     AddFunctionToResults(funcName,funcSign,Math.random()>.5?"YES":"NO");
 }
 
-function AddFunctionToResults(functionName,functionSignature,isMutatingFunction){
+function AddFunctionToResults(func){
     let newRow = document.createElement("tr");
 
     let chkCol = document.createElement("td");;
@@ -17,16 +17,12 @@ function AddFunctionToResults(functionName,functionSignature,isMutatingFunction)
     newRow.appendChild(chkCol);
 
     let name = document.createElement("td");
-    name.append(document.createTextNode(functionName));
+    name.append(document.createTextNode(func.name));
     newRow.appendChild(name);
 
-    let signature = document.createElement("td");
-    signature.append(document.createTextNode(functionSignature));
-    newRow.appendChild(signature)
-
-    let isMutating = document.createElement("td");
-    isMutating.append(document.createTextNode(isMutatingFunction));
-    newRow.appendChild(isMutating);
+    let depth = document.createElement("td");
+    depth.append(document.createTextNode(func.functionName));
+    newRow.appendChild(depth);
 
     document.getElementById("resultsTableBody").appendChild(newRow);
 }
@@ -38,12 +34,12 @@ function DeleteAllResults(){
     document.getElementById("resultsTable").replaceChild(newBody,oldBody);
 }
 
-function SearchSignatures(){
+function SearchNames(){
     let substring = document.getElementById("searchInp").value.toLowerCase();
     let tableBody = document.getElementById("resultsTableBody");
     let rows = tableBody.getElementsByTagName("tr");
     for(i = 0; i<rows.length; ++i){
-        let td = rows[i].getElementsByTagName("td")[1];
+        let td = rows[i].getElementsByTagName("td")[0];
         if(td){
 
             if(td.textContent.toLowerCase().indexOf(substring) > -1){ //show this row
@@ -56,13 +52,15 @@ function SearchSignatures(){
 }
 
 window.onload = function(e){
-    document.getElementById("searchInp").addEventListener('change',SearchSignatures);
+    document.getElementById("searchInp").addEventListener('change',SearchNames);
     document.getElementById("deleteBtn").addEventListener('click',DeleteAllResults);
     document.getElementById("randomAddBtn").addEventListener('click',AddRandomFunction);
     document.getElementById("checkAll").addEventListener('change',function(){
         var chks = document.getElementsByClassName("resultsCheckBox");
         Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
     });
+
+    let data = {};
 
 
     const record = document.getElementById('recordBtn');
@@ -82,24 +80,17 @@ window.onload = function(e){
         sendObjectFromDevTools({action: "stop"});
     });
 
-    chrome.extension.onMessage.addListener(function(message, sender) {
-        console.log(message);
-
+    chrome.extension.onMessage.addListener(function (message, sender) {
+        console.log(message, sender)
+    
         if (message && message.action) return;
-
+    
+        data = message.data;
+    
+        if (data.functions && data.functions.length > 0) {
+            DeleteAllResults();
+            data.functions.forEach(func => AddFunctionToResults(func));   
+        }
     });
+    sendObjectFromDevTools({action: 'getData'});
 };
-
-
-chrome.extension.onMessage.addListener(function (message, sender) {
-    console.log(message, sender)
-
-    if (message && message.action) return;
-
-    data = message.data;
-
-    if (data.functions && data.functions.length > 0) {
-        data
-    }
-
-});
