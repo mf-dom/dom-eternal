@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="panel.css">
-<html>
+<html style="height: 100%;">
     <body>
         <div class="toolbar">
             <div class="toolSubSection">
@@ -10,12 +10,6 @@
             <div class="toolSubSection">
                 <button class="toolItem toolButton" id="filterBtn">Filter</button>
                 <input class="toolItem" type="text" placeholder="Search..." id="searchInp"/>
-                <!--
-                    <div style="display:inline-flex;">
-                        <input class="toolItem" type="text" placeholder="Search..." id="searchInp"/>
-                        <button class="toolItem toolButton" id="searchBtn">GO</button>
-                    </div>
-                -->
             </div>
             <div class="toolSubSection">
                 <button class="toolItem toolButton" id="deleteBtn">Delete</button>
@@ -26,6 +20,7 @@
         <div style="width:100%;">
             <table id="resultsTable">
                 <tr>
+                    <th><input id="checkAll" type="checkbox"/></th>
                     <th>Function Name</th>
                     <th>Function Signature</th>
                     <th>Mutation Causer</th>

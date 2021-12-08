@@ -1,5 +1,6 @@
+
+
 .toolbar{
-    background-color:gainsboro;
     align-items: left;
     display: flex;
     width:100%;
@@ -29,14 +30,40 @@
 }
 
 #resultsTable{
-    margin: auto;
-    width: 95%;
-    border: 1px solid black;
-    padding: 3px;
     margin-top: 1em;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }   
 
-th, td{
-    border: 1px solid black;
-    padding: 3px;
+th{
+    border: 1px solid #636363;
+    text-align: left;
+    background-color: #333131;
+    padding: 4px;
+}
+
+td{
+    border: 1px solid #636363;
+    text-align: left;
+    padding: 4px;
+}
+
+tr:nth-child(even) {
+    background-color: #3b3a3a;
+}
+
+tr{
+    text-align: left;
+    border: 1px solid #3b3a3a;
+}
+
+body{
+    background-color: #0d1117;
+    height: 100%;
+    color: white;
+}
+
+.resultsCheckBox{
+
 }

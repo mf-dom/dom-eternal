@@ -9,6 +9,13 @@ function AddRandomFunction(){
 function AddFunctionToResults(functionName,functionSignature,isMutatingFunction){
     let newRow = document.createElement("tr");
 
+    let chkCol = document.createElement("td");;
+    let chk = document.createElement("input");
+    chk.type = "checkbox";
+    chk.classList.add("resultsCheckBox");
+    chkCol.appendChild(chk);
+    newRow.appendChild(chkCol);
+
     let name = document.createElement("td");
     name.append(document.createTextNode(functionName));
     newRow.appendChild(name);
@@ -52,9 +59,15 @@ window.onload = function(e){
     document.getElementById("searchInp").addEventListener('change',SearchSignatures);
     document.getElementById("deleteBtn").addEventListener('click',DeleteAllResults);
     document.getElementById("randomAddBtn").addEventListener('click',AddRandomFunction);
+    document.getElementById("checkAll").addEventListener('change',function(){
+        var chks = document.getElementsByClassName("resultsCheckBox");
+        Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
+    });
+
 
     const record = document.getElementById('recordBtn');
     const stop = document.getElementById('stopBtn');
+    
 
     record.addEventListener("click", function() {
         record.style.cursor = "not-allowed";
@@ -76,3 +89,17 @@ window.onload = function(e){
 
     });
 };
+
+
+chrome.extension.onMessage.addListener(function (message, sender) {
+    console.log(message, sender)
+
+    if (message && message.action) return;
+
+    data = message.data;
+
+    if (data.functions && data.functions.length > 0) {
+        data
+    }
+
+});
