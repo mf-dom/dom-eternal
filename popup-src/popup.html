@@ -90,7 +90,7 @@
             width: 100%;
         }
 
-        #recording div {
+        .recording-dot {
             width: 1rem;
             height: 1rem;
             margin: 2rem 0.3rem;
@@ -121,6 +121,15 @@
             position: absolute;
             width: 100%;
         }
+
+        #error {
+            display: none;
+            position: absolute;
+            top: 50%;
+            color: indianred;
+            text-decoration: underline;
+
+        }
     </style>
 </head>
 
@@ -135,9 +144,12 @@
         DOM Eternal
     </div>
     <div id="recording">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="recording-dot"></div>
+        <div class="recording-dot"></div>
+        <div class="recording-dot"></div>
+    </div>
+    <div id="error">
+        The DevTools panel is not open. Please open the DevTools panel and try again.
     </div>
     <div class="note" id="note">
         <strong>Note:</strong> Make sure the browser DevTools window is open prior to recording (<kb>F12</kb>)

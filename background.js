@@ -25,28 +25,46 @@ chrome.extension.onConnect.addListener(function (port) {
 			if (message.action === 'start') {
 				if (storedData[message.tabId] && storedData[message.tabId].recording) return;
 
-        storedData[message.tabId] = {...storedData, mutations: [], recording: false};
-				chrome.debugger.attach({tabId: message.tabId}, "1.2", () => {
+				storedData[message.tabId] = { ...storedData[message.tabId], recording: false, doneRecording: false, panelNotOpen: false };
+				storedData[message.tabId].mutations = storedData[message.tabId].mutations || [];
+				storedData[message.tabId].functions = storedData[message.tabId].functions || [];
+
+				chrome.debugger.attach({ tabId: message.tabId }, "1.2", () => {
 					console.log("Debugger (re)attached")
-					chrome.debugger.sendCommand({tabId: message.tabId}, "DOM.getDocument", {}, console.log)
-					chrome.debugger.sendCommand({tabId: message.tabId}, "Debugger.enable", {}, console.log)
-					chrome.debugger.sendCommand({tabId: message.tabId}, "Runtime.enable", {}, console.log)
+					// chrome.debugger.sendCommand({ tabId: message.tabId }, "DOM.getDocument", {}, console.log)
+					chrome.debugger.sendCommand({ tabId: message.tabId }, "Debugger.enable", {}, console.log)
+					// chrome.debugger.sendCommand({ tabId: message.tabId }, "Runtime.enable", {}, console.log)
 
 					chrome.debugger.onEvent.addListener((debuggeeId, method, params) => {
 						console.log("EVENT", debuggeeId, method, params)
 						if (method === "Debugger.paused") {
 							storedData[message.tabId].mutations.push(params)
 							const { asyncStackTrace } = params;
-							const labelledFrames = asyncStackTrace.callFrames.map((frame, depth) => ({...frame, depth}))
+
+							if (!asyncStackTrace) {
+								chrome.extension.sendMessage({ data: { ...storedData[message.tabId], panelNotOpen: true } })
+								chrome.debugger.sendCommand({ tabId: message.tabId }, "Debugger.resume", {}, () => {
+									chrome.tabs.executeScript(message.tabId, { code: "window.alert('There was an error initializing the DOM Eternal recording. See the error in the popup for DOM Eternal.')" });
+									chrome.debugger.detach({ tabId: message.tabId })
+								})
+								storedData[message.tabId].recording = false;
+								storedData[message.tabId].doneRecording = false;
+
+								return;
+							}
+
+							const labelledFrames = asyncStackTrace.callFrames.map((frame, depth) => ({ ...frame, depth }))
 							const filteredFrames = labelledFrames.filter(frame => frame.functionName && frame.functionName.indexOf('push') !== 0)
 							if (filteredFrames.length > 0) {
 								storedData[message.tabId].functions = storedData[message.tabId].functions || [];
 								storedData[message.tabId].functions = [...(new Set([...storedData[message.tabId].functions, ...filteredFrames].map(JSON.stringify)))].map(JSON.parse)
+								storedData[message.tabId].functions = storedData[message.tabId].functions.sort((a, b) => a.depth - b.depth)
 							}
 
 							console.log("FUNCTIONS", storedData[message.tabId].functions)
+							chrome.extension.sendMessage({ data: storedData[message.tabId] })
 
-							chrome.debugger.sendCommand({tabId: message.tabId}, "Debugger.resume", {}, console.log)
+							chrome.debugger.sendCommand({ tabId: message.tabId }, "Debugger.resume", {}, console.log)
 						}
 					});
 				})
@@ -54,11 +72,20 @@ chrome.extension.onConnect.addListener(function (port) {
 				storedData[message.tabId].recording = true;
 
 			} else if (message.action === 'startAnalysis') {
-
-
+				console.log("STARTING ANALYSIS", message.functionsWithSelections, message.functionsWithSelections.filter(f => f.selected))
+			} else if (message.action === 'reset') {
+				chrome.debugger.detach({ tabId: message.tabId })
+				chrome.tabs.executeScript(message.tabId, { file: "scripts/stopRecordingMutations.js" });
+				storedData[message.tabId] = { recording: false, panelNotOpen: false, mutations: [], functions: [] };
+				chrome.extension.sendMessage({ data: storedData[message.tabId] })
+			} else if (message.action === 'resume') {
+				storedData[message.tabId].recording = false;
+				storedData[message.tabId].doneRecording = false;
+				extensionListener({ tabId: message.tabId, action: 'start' });
 			} else if (message.action === 'stop') {
 				console.log('stopping')
-				chrome.debugger.sendCommand({tabId: message.tabId}, "Network.emulateNetworkConditions", {offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0}, (result) => {
+				chrome.debugger.detach({ tabId: message.tabId }, () => {console.log('detached')});
+				chrome.debugger.sendCommand({ tabId: message.tabId }, "Network.emulateNetworkConditions", { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0 }, (result) => {
 					console.log("For safety, network connections have been disabled", result)
 				});
 				storedData[message.tabId].recording = false;
@@ -66,7 +93,7 @@ chrome.extension.onConnect.addListener(function (port) {
 				chrome.tabs.executeScript(message.tabId, { file: "scripts/stopRecordingMutations.js" });
 				console.log(storedData)
 			} else if (message.action === 'getData') {
-				chrome.extension.sendMessage({data: storedData[message.tabId]})
+				chrome.extension.sendMessage({ data: storedData[message.tabId] })
 			} else {
 				console.log(message, sender, sendResponse)
 				//Pass message to inspectedPage

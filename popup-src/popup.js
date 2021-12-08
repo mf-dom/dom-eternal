@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('status').style.display = "block";
         document.getElementById('infobtn').style.display = "none";
         document.getElementById('note').style.display = "none";
+        document.getElementById('error').style.display = "none";
+        [...document.getElementsByClassName('recording-dot')].forEach(dot => dot.style.background = "red");
     }
 
     record.addEventListener("click", function() {
@@ -28,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
         setTimeout(() => {
             document.getElementById('status').innerText = 'recording...';
+            [...document.getElementsByClassName('recording-dot')].forEach(dot => dot.style.background = "forestgreen");
         }, 2000);
 
     });
@@ -50,9 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     chrome.extension.onMessage.addListener(function(message, sender) {
+        console.log(message);
+
+        if (message && message.action) return;
+
         if (message.data && message.data.recording) {
             showRecordingState();
             document.getElementById('status').innerText = 'recording...';
+            [...document.getElementsByClassName('recording-dot')].forEach(dot => dot.style.background = "forestgreen");
         }
 
         if (message.data && message.data.functions) {
@@ -62,6 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (message.data && message.data.doneRecording) {
             window.location.href = "results.html";
         }
+
+        if (message.data && message.data.panelNotOpen) {
+            document.getElementById('error').style.display = "block";
+            document.getElementById('recording').style.display = "none";
+        }
+
     });
 
     sendObjectFromPopup({action: 'getData'})

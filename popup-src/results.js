@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const fuzz = document.getElementById("fuzz-button");
     const search_input = document.getElementById("search-input");
     const select_all = document.getElementById("select-all");
+    const reset = document.getElementById("reset-button");
+    const reset_prompt = document.getElementById("reset");
+    const resume = document.getElementById("resume-button");
+    let data = {};
 
     search_input.addEventListener("keyup", function () {
         var input, filter, ul, li, label, i, txtValue;
@@ -65,22 +69,52 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     fuzz.addEventListener("click", function () {
-        window.location.href = "report.html";
+        if (data.functions && data.functions.length > 0) {
+            const checkedState = [...document.getElementById("results-ul").children].map(node => node.firstChild.firstChild.checked);
+            if (checkedState.some(a => a)) {
+                const functionsWithSelections = data.functions.map((func, index) => ({...func, selected: checkedState[index]}));
+                sendObjectFromPopup({"action": "startAnalysis", functionsWithSelections});
+                window.location.href = "report.html";
+            } else {
+                window.alert("Please select at least one function.");
+            }
+        } else {
+            window.alert("The tool hasn't recorded any functions to fuzz yet - try resuming recording to gather more data.");
+        }
     });
 
     settings.addEventListener("click", function () {
         chrome.runtime.openOptionsPage();
     });
 
+    reset.addEventListener("click", function() {
+        sendObjectFromPopup({action: "reset"});
+        window.location.href = "popup.html";
+    });
+
+    reset_prompt.addEventListener("click", function() {
+        sendObjectFromPopup({action: "reset"});
+        window.location.href = "popup.html";
+    });
+
+    resume.addEventListener("click", function() {
+        sendObjectFromPopup({action: "resume"});
+        window.location.href = "popup.html";
+    });
+
     chrome.extension.onMessage.addListener(function (message, sender) {
         console.log(message, sender)
-        const { data } = message;
+
+        if (message && message.action) return;
+
+        data = message.data;
+
         if (data.functions && data.functions.length > 0) {
             while (document.getElementById("results-ul").firstChild) {
                 document.getElementById("results-ul").removeChild(document.getElementById("results-ul").firstChild);
             }
 
-            data.functions.sort((a,b) => a.depth - b.depth).forEach(fun => {
+            data.functions.forEach(fun => {
                 let li = document.createElement("li");
                 let label = document.createElement("label");
                 let input = document.createElement("input");

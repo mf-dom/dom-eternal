@@ -68,4 +68,11 @@ window.onload = function(e){
         }
         sendObjectFromDevTools({action: "stop"});
     });
+
+    chrome.extension.onMessage.addListener(function(message, sender) {
+        console.log(message);
+
+        if (message && message.action) return;
+
+    });
 };

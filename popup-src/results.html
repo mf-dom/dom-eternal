@@ -51,6 +51,7 @@
             overflow-y: scroll;
             display: flex;
             flex-direction: column;
+            padding-left: 15px;
         }
 
         #search-input {
@@ -67,20 +68,7 @@
             filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
-        #filter-button {
-            width: 20px;
-            height: 20px;
-            position: relative;
-            top: 3px;
-            left: -2px;
-            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
-        }
-
-        #filter-button:hover {
-            opacity: 50%;
-        }
-
-        #settings-button {
+        .header-icon {
             width: 20px;
             height: 20px;
             position: relative;
@@ -89,20 +77,11 @@
             filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
         }
 
-        #settings-button:hover {
+        .header-icon:hover {
             opacity: 50%;
         }
-
-        #fuzz-button {
-            position: relative;
-            top: 3px;
-            width: 21px;
-            height: 21px;
-            filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(318deg) brightness(110%) contrast(101%);
-        }
-
-        #fuzz-button:hover {
-            opacity: 50%;
+        #filter-button {
+            left: -2px;
         }
 
         #no-results {
@@ -110,8 +89,18 @@
             position: absolute;
             justify-content: center;
             display: none;
-            width: 80%;
-            margin: auto;
+            padding: 0 10%;
+            text-align: center;
+        }
+
+        .reset {
+            margin-top: 15px;
+            text-decoration: underline;
+        }
+
+        .reset:hover {
+            cursor: pointer;
+            color: mediumslateblue;
         }
     </style>
 </head>
@@ -125,11 +114,13 @@
         <div id="top-bot">
             <div>
                 <input type="checkbox" id="select-all" title="Select all">
-                <input type="image" src="../assets/funnel-outline.svg" id="filter-button">
+                <input type="image" src="../assets/funnel-outline.svg" id="filter-button" class="header-icon">
             </div>
             <div>
-                <input type="image" src="../assets/dice-outline.svg" id="fuzz-button" title="Fuzz selected items">
-                <input type="image" src="../assets/settings-outline.svg" id="settings-button">
+                <input type="image" src="../assets/dice-outline.svg" id="fuzz-button" title="Fuzz selected items" class="header-icon">
+                <input type="image" src="../assets/settings-outline.svg" id="settings-button" title="Extension settings" class="header-icon" hidden>
+                <input type="image" src="../assets/resume-outline.svg" id="resume-button" title="Resume recording" class="header-icon">
+                <input type="image" src="../assets/reset-outline.svg" id="reset-button" title="Reset all results" class="header-icon">
             </div>
         </div>
     </div>
@@ -139,7 +130,11 @@
         </ul>
     </div>
     <div id="no-results">
-        No results found - try recording interactions again in a new tab.
+        No results found - make sure you interact with the page prior to you stop recording.
+        <br />
+        <span id="reset" class="reset">
+            Reset and start over
+        </span>
     </div>
     <script src="messaging.js"></script>
     <script src="results.js"></script>
