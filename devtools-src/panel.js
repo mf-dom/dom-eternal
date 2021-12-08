@@ -9,11 +9,11 @@ function AddFunctionToResults(func){
     newRow.appendChild(chkCol);
 
     let name = document.createElement("td");
-    name.append(document.createTextNode(func.name));
+    name.append(document.createTextNode(func.functionName));
     newRow.appendChild(name);
 
     let depth = document.createElement("td");
-    depth.append(document.createTextNode(func.functionName));
+    depth.append(document.createTextNode(func.depth));
     newRow.appendChild(depth);
 
     document.getElementById("resultsTableBody").appendChild(newRow);
@@ -31,7 +31,7 @@ function SearchNames(){
     let tableBody = document.getElementById("resultsTableBody");
     let rows = tableBody.getElementsByTagName("tr");
     for(i = 0; i<rows.length; ++i){
-        let td = rows[i].getElementsByTagName("td")[0];
+        let td = rows[i].getElementsByTagName("td")[1];
         if(td){
 
             if(td.textContent.toLowerCase().indexOf(substring) > -1){ //show this row
@@ -46,7 +46,6 @@ function SearchNames(){
 window.onload = function(e){
     document.getElementById("searchInp").addEventListener('change',SearchNames);
     document.getElementById("deleteBtn").addEventListener('click',DeleteAllResults);
-    document.getElementById("randomAddBtn").addEventListener('click',AddRandomFunction);
     document.getElementById("checkAll").addEventListener('change',function(){
         var chks = document.getElementsByClassName("resultsCheckBox");
         Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
@@ -57,18 +56,29 @@ window.onload = function(e){
 
     const record = document.getElementById('recordBtn');
     const stop = document.getElementById('stopBtn');
+    record.style.cursor = "auto";
+    record.disabled = false;
+    stop.style.cursor = "not-allowed";
+    stop.disabled = true;
     
 
     record.addEventListener("click", function() {
         record.style.cursor = "not-allowed";
-        record.disabled = "true";
+        record.disabled = true;
+        stop.style.cursor = "auto";
+        stop.disabled = false;
         sendObjectFromDevTools({action: "start"});
     });
 
     stop.addEventListener("click", function() {
-        if (!confirm("Stop recording and see results?")) {
+
+        if (!confirm("Stop recording?")) {
             return;
         }
+        stop.style.cursor = "not-allowed";
+        stop.disabled = true;
+        record.style.cursor = "auto";
+        record.disabled = false;
         sendObjectFromDevTools({action: "stop"});
     });
 
@@ -79,7 +89,7 @@ window.onload = function(e){
     
         data = message.data;
     
-        if (data.functions && data.functions.length > 0) {
+        if (data && data.functions && data.functions.length > 0) {
             DeleteAllResults();
             data.functions.forEach(func => AddFunctionToResults(func));   
         }
