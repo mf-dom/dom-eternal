@@ -37,6 +37,7 @@
             left: 0px;
             position: absolute;
             width: 100%;
+            display: block;
         }
 
         #results-list label {
@@ -59,6 +60,7 @@
             background-color: #21262d;
             border-radius: 25px;
             border: 0.5px solid #0d1117;
+            color: white;
         }
 
         #search-button {
@@ -102,6 +104,41 @@
             cursor: pointer;
             color: mediumslateblue;
         }
+
+        #progress {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            align-items: center;
+            height: 20px;
+            width: 75%;
+            padding: 1px 5px;
+            top: 45%;
+            left: 10%;
+            position: absolute;
+            justify-content: center;
+            text-align: center;
+            display: none;
+        }
+
+        #progress-bar {
+            animation: load 20s normal forwards;
+            box-shadow: 0 10px 40px -10px #fff;
+            border-radius: 100px;
+            padding: 2px 0;
+            background: green;
+            height: 15px;
+            width: 0;
+        }
+
+        @keyframes load {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -135,6 +172,10 @@
         <span id="reset" class="reset">
             Reset and start over
         </span>
+    </div>
+    <div id="progress">
+        <div id="progress-bar"></div>
+        <p>Fuzzing...</p>
     </div>
     <script src="messaging.js"></script>
     <script src="results.js"></script>

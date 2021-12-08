@@ -74,7 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
             if (checkedState.some(a => a)) {
                 const functionsWithSelections = data.functions.map((func, index) => ({...func, selected: checkedState[index]}));
                 sendObjectFromPopup({"action": "startAnalysis", functionsWithSelections});
-                window.location.href = "report.html";
+                document.getElementById('results-list').style.display = "none";
+                fuzz.style.opacity = "50%";
+                document.getElementById('topthing').style.pointerEvents = "none";
+                document.getElementById('topthing').style.cursor = "not-allowed";
+                document.getElementById('progress').style.display = "block";
+                setTimeout(() => {
+                    window.location.href = "report.html";
+                }, 20000);
             } else {
                 window.alert("Please select at least one function.");
             }

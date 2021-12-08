@@ -16,8 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
         [...document.getElementsByClassName('recording-dot')].forEach(dot => dot.style.background = "red");
     }
 
-    record.addEventListener("click", function() {
-        sendObjectFromPopup({action: "start"});
+    record.addEventListener("click", function () {
+        if (!confirm("Make sure Chrome Developer Tools (F12) is open. Start recording?")) {
+            return;
+        }
+        sendObjectFromPopup({ action: "start" });
 
         showRecordingState();
 
@@ -35,20 +38,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    stop.addEventListener("click", function() {
+    stop.addEventListener("click", function () {
         if (!confirm("Stop recording and see results?")) {
             return;
         }
         window.location.href = "results.html";
         document.getElementById('recording').style.display = "none";
-        sendObjectFromPopup({action: "stop"});
+        sendObjectFromPopup({ action: "stop" });
     });
 
-    settings.addEventListener("click", function() {
+    settings.addEventListener("click", function () {
         chrome.runtime.openOptionsPage();
     });
 
-    info.addEventListener("click", function() {
+    info.addEventListener("click", function () {
         window.location.href = "info.html";
     });
 
@@ -78,5 +81,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    sendObjectFromPopup({action: 'getData'})
+    sendObjectFromPopup({ action: 'getData' })
 });
