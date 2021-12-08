@@ -1,6 +1,6 @@
 # DOM(Document Object Model) Eternal
-An XSS fuzzer capable of detecting runtime XSS vulnerabilites.
 ---
+An XSS fuzzer capable of detecting runtime XSS vulnerabilites.
 # Installation
 
 1. Clone the repository.
@@ -13,8 +13,7 @@ git clone https://github.com/mf-dom/dom-eternal.git
 5. Done!
 
 # Design
-```
-```
+![System Architecture Diagram Picture](relative/assets/system-diagram.png?raw=true "System Architecture")
 
 # Contribution Guide
 Thank you for considering contributing to DOM Eternal!
@@ -48,7 +47,7 @@ We use GitHub issues to track public bugs. Report a bug by opening a new issue. 
 * You can try using `Shift`+`Alt`+`F` in VS Code for style unification
 
 ## License
-By contributing, you agree that your contributions will be licensed under the [MIT License](https://github.com/mf-dom/dom-eternal/blob/main/LICENSE).
+By contributing, you agree that your contributions will be licensed under the [GPL-3.0 License](https://github.com/mf-dom/dom-eternal/blob/main/LICENSE).
 
 
 # Privacy Policy
