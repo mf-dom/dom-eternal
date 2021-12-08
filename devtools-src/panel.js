@@ -1,11 +1,3 @@
-
-
-function AddRandomFunction(){
-    let funcName = (Math.random() + 1).toString(36).substring(7);
-    let funcSign = funcName+"(params)";
-    AddFunctionToResults(funcName,funcSign,Math.random()>.5?"YES":"NO");
-}
-
 function AddFunctionToResults(func){
     let newRow = document.createElement("tr");
 
