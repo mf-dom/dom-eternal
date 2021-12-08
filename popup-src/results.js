@@ -65,7 +65,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     fuzz.addEventListener("click", function () {
-        window.location.href = "report.html";
+        document.getElementById('results-list').style.display = "none";
+        fuzz.style.opacity = "50%";
+        document.getElementById('topthing').style.pointerEvents = "none";
+        document.getElementById('topthing').style.cursor = "not-allowed";
+        document.getElementById('progress').style.display = "block";
+        setTimeout(() => {
+            window.location.href = "report.html";
+        }, 20000);
     });
 
     settings.addEventListener("click", function () {
