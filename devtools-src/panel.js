@@ -44,8 +44,14 @@ function SearchNames(){
 }
 
 window.onload = function(e){
-    document.getElementById("searchInp").addEventListener('change',SearchNames);
-    document.getElementById("deleteBtn").addEventListener('click',DeleteAllResults);
+    const record = document.getElementById('recordBtn');
+    const stop = document.getElementById('stopBtn');
+    const reset = document.getElementById('deleteBtn');
+    const search = document.getElementById('searchInp');
+    const download = document.getElementById('exportBtn');
+    const filter = document.getElementById('filterBtn');
+
+    search.addEventListener('change',SearchNames);
     document.getElementById("checkAll").addEventListener('change',function(){
         var chks = document.getElementsByClassName("resultsCheckBox");
         Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
@@ -53,21 +59,36 @@ window.onload = function(e){
 
     let data = {};
 
-
-    const record = document.getElementById('recordBtn');
-    const stop = document.getElementById('stopBtn');
     record.style.cursor = "auto";
     record.disabled = false;
     stop.style.cursor = "not-allowed";
     stop.disabled = true;
-    
 
-    record.addEventListener("click", function() {
+    function showRecordingState() {
         record.style.cursor = "not-allowed";
+        record.innerText = "Recording";
         record.disabled = true;
         stop.style.cursor = "auto";
         stop.disabled = false;
-        sendObjectFromDevTools({action: "start"});
+        document.getElementsByClassName('pulsating-circle')[0].style.display = "block";
+    }
+
+    function showStoppedState() {
+        record.style.cursor = "auto";
+        record.innerText = "Record";
+        record.disabled = false;
+        stop.style.cursor = "not-allowed";
+        stop.disabled = true;
+        document.getElementsByClassName('pulsating-circle')[0].style.display = "none";
+    }
+
+    record.addEventListener("click", function() {
+        if (data && data.doneRecording) {
+            sendObjectFromDevTools({action: "resume"});
+        } else {
+            sendObjectFromDevTools({action: "start"});
+        }
+        showRecordingState();
     });
 
     stop.addEventListener("click", function() {
@@ -75,24 +96,36 @@ window.onload = function(e){
         if (!confirm("Stop recording?")) {
             return;
         }
-        stop.style.cursor = "not-allowed";
-        stop.disabled = true;
-        record.style.cursor = "auto";
-        record.disabled = false;
+        showStoppedState();
+        record.innerText = "Resume recording";
         sendObjectFromDevTools({action: "stop"});
+    });
+
+    reset.addEventListener("click", function() {
+        sendObjectFromDevTools({action: "reset"});
+        showStoppedState();
     });
 
     chrome.extension.onMessage.addListener(function (message, sender) {
         console.log(message, sender)
-    
+
         if (message && message.action) return;
-    
+
         data = message.data;
-    
+
         if (data && data.functions && data.functions.length > 0) {
             DeleteAllResults();
-            data.functions.forEach(func => AddFunctionToResults(func));   
+            data.functions.forEach(func => AddFunctionToResults(func));
         }
+
+        if (data && data.recording) {
+            showRecordingState();
+        }
+
+        if (data && data.doneRecording) {
+            showStoppedState();
+        }
+
     });
     sendObjectFromDevTools({action: 'getData'});
 };

@@ -25,9 +25,15 @@ chrome.extension.onConnect.addListener(function (port) {
 			if (message.action === 'start') {
 				if (storedData[message.tabId] && storedData[message.tabId].recording) return;
 
-				storedData[message.tabId] = { ...storedData[message.tabId], recording: false, doneRecording: false, panelNotOpen: false };
+				storedData[message.tabId] = { ...storedData[message.tabId], recording: false, doneRecording: false, panelNotOpen: false, doneAnalyzing: false };
 				storedData[message.tabId].mutations = storedData[message.tabId].mutations || [];
 				storedData[message.tabId].functions = storedData[message.tabId].functions || [];
+				storedData[message.tabId].functions = storedData[message.tabId].functions.map(f => {
+					delete f.vulnerable;
+					delete f.selected;
+				})
+
+				console.log("DATA", storedData[message.tabId]);
 
 				chrome.debugger.attach({ tabId: message.tabId }, "1.2", () => {
 					console.log("Debugger (re)attached")
@@ -74,6 +80,17 @@ chrome.extension.onConnect.addListener(function (port) {
 
 			} else if (message.action === 'startAnalysis') {
 				console.log("STARTING ANALYSIS", message.functionsWithSelections, message.functionsWithSelections.filter(f => f.selected))
+				if (message.functionsWithSelections && message.functionsWithSelections.length > 0) {
+					const selectedCount = message.functionsWithSelections.filter(f => f.selected).length;
+					storedData[message.tabId].functions = message.functionsWithSelections;
+					storedData[message.tabId].functions = storedData[message.tabId].functions.map(func => {
+						func.vulnerable = func.selected ? selectedCount === 1 ? true : Math.random() < 0.25 : false;
+						return func;
+					})
+					storedData[message.tabId].doneAnalyzing = true;
+				}
+
+				chrome.extension.sendMessage({ data: {...storedData[message.tabId]} })
 			} else if (message.action === 'reset') {
 				chrome.debugger.detach({ tabId: message.tabId })
 				chrome.tabs.executeScript(message.tabId, { file: "scripts/stopRecordingMutations.js" });
