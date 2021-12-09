@@ -45,7 +45,12 @@ function SearchNames(){
 
 window.onload = function(e){
     document.getElementById("searchInp").addEventListener('change',SearchNames);
-    document.getElementById("deleteBtn").addEventListener('click',DeleteAllResults);
+    document.getElementById("deleteBtn").addEventListener('click',function(){
+        if(confirm("Delete all results?")){
+            sendObjectFromPopup({action: "reset"});
+            DeleteAllResults();
+        }
+    });
     document.getElementById("checkAll").addEventListener('change',function(){
         var chks = document.getElementsByClassName("resultsCheckBox");
         Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
