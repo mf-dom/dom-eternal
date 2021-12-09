@@ -8,9 +8,10 @@ An XSS fuzzer capable of detecting runtime XSS vulnerabilites.
 git clone https://github.com/mf-dom/dom-eternal.git
 ```
 2. In Google Chrome, go to chrome://extensions/.
-3. Click "Load unpacked" and find where you cloned the repository.
-4. Choose the dom-eternal directory.
-5. Done!
+3. Make sure "developer mode" is turned on
+4. Click "Load unpacked" and find where you cloned the repository.
+5. Choose the dom-eternal directory.
+6. Done!
 
 # Design
 ![System Architecture Diagram Picture](assets/system-diagram.png?raw=true "System Architecture")
