@@ -31,7 +31,6 @@
 }
 
 #resultsTable{
-    margin-top: 1em;
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -57,6 +56,30 @@ tr:nth-child(even) {
 tr{
     text-align: left;
     border: 1px solid #3b3a3a;
+}
+
+#sidebarAndContentDiv{
+    margin-top: 1em;
+    width:100%;
+    min-height: 100%;
+    display: flex;
+}
+
+#contentDiv{
+    width: 100%;
+    flex-basis: 80%;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+
+#sidebar{
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 20%;
+    width: 100%;
+    background-color: #272822;
+    min-height: 100%;
 }
 
 body{
@@ -107,4 +130,12 @@ body{
     to {
      transform:scale(.8)
     }
+}
+h1,h2 {
+    text-align: center;
+}
+
+p,ol {
+    margin: 1em;
+    padding: .5em;
 }

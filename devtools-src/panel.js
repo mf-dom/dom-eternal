@@ -1,23 +1,3 @@
-function AddFunctionToResults(func){
-    let newRow = document.createElement("tr");
-
-    let chkCol = document.createElement("td");;
-    let chk = document.createElement("input");
-    chk.type = "checkbox";
-    chk.classList.add("resultsCheckBox");
-    chkCol.appendChild(chk);
-    newRow.appendChild(chkCol);
-
-    let name = document.createElement("td");
-    name.append(document.createTextNode(func.functionName));
-    newRow.appendChild(name);
-
-    let depth = document.createElement("td");
-    depth.append(document.createTextNode(func.depth));
-    newRow.appendChild(depth);
-
-    document.getElementById("resultsTableBody").appendChild(newRow);
-}
 
 function DeleteAllResults(){
     let oldBody = document.getElementById("resultsTableBody");
@@ -56,8 +36,14 @@ window.onload = function(e){
         var chks = document.getElementsByClassName("resultsCheckBox");
         Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
     });
+    document.getElementById('infoBtn').addEventListener('click',function(){
+        document.getElementById('infoPage').style.display = "";
+        document.getElementById('jsonViewer').style.display = "none";
+    });
 
     let data = {};
+
+    JsonViewer.init(document.getElementById('jsonViewer'));
 
     record.style.cursor = "auto";
     record.disabled = false;
@@ -115,10 +101,37 @@ window.onload = function(e){
 
         if (data && data.functions && data.functions.length > 0) {
             DeleteAllResults();
-            data.functions.forEach(func => AddFunctionToResults(func));
+
+            data.functions.forEach(func => {
+                let newRow = document.createElement("tr");
+
+                let chkCol = document.createElement("td");;
+                let chk = document.createElement("input");
+                chk.type = "checkbox";
+                chk.classList.add("resultsCheckBox");
+                chkCol.appendChild(chk);
+                newRow.appendChild(chkCol);
+
+                let name = document.createElement("td");
+                name.append(document.createTextNode(func.functionName));
+                newRow.appendChild(name);
+
+                let depth = document.createElement("td");
+                depth.append(document.createTextNode(func.depth));
+                newRow.appendChild(depth);
+
+                newRow.addEventListener('click',function(){
+                    let funcObj = func;
+                    document.getElementById('infoPage').style.display = "none";
+                    document.getElementById('jsonViewer').style.display = "";
+                    JsonViewer.render(JSON.stringify(funcObj));
+                })
+
+                document.getElementById("resultsTableBody").appendChild(newRow);
+            });
         }
 
-        if (data && data.recording) {
+            if (data && data.recording) {
             showRecordingState();
         }
 
