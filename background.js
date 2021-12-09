@@ -49,6 +49,7 @@ chrome.extension.onConnect.addListener(function (port) {
 								})
 								storedData[message.tabId].recording = false;
 								storedData[message.tabId].doneRecording = false;
+								storedData[message.tabId].panelNotOpen = true;
 
 								return;
 							}

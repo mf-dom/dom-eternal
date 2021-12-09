@@ -55,6 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "info.html";
     });
 
+    if (!localStorage.getItem("startupInfo")) {
+        localStorage.setItem("startupInfo", true);
+        window.location.href = "info.html";
+    }
+
     chrome.extension.onMessage.addListener(function(message, sender) {
         console.log(message);
 

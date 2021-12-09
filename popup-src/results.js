@@ -79,9 +79,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('topthing').style.pointerEvents = "none";
                 document.getElementById('topthing').style.cursor = "not-allowed";
                 document.getElementById('progress').style.display = "block";
+                document.getElementById('progress-bar').style.animationDirection = `${checkedState.filter(a => a).length * 2.5}s`;
                 setTimeout(() => {
                     window.location.href = "report.html";
-                }, 20000);
+                }, checkedState.filter(a => a).length * 2500);
             } else {
                 window.alert("Please select at least one function.");
             }
