@@ -138,11 +138,9 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (data.functions.length === 0) {
-                window.location.href = "popup.html";
+                document.getElementById("results-list").style.display = "none";
+                document.getElementById("no-results").style.display = "block";
             }
-        } else {
-            document.getElementById("results-list").style.display = "none";
-            document.getElementById("no-results").style.display = "block";
         }
 
         if (data && data.doneAnalyzing) {
