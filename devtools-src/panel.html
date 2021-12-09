@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="panel.css">
+<link rel="stylesheet" href="JsonViewer.css">
 <html style="height: 100%;">
     <body>
         <div class="toolbar">
@@ -16,19 +17,41 @@
                 <button class="toolItem toolButton" id="exportBtn">Export</button>
             </div>
         </div>
-        <div style="width:100%;">
-            <table id="resultsTable">
-                <tr>
-                    <th><input id="checkAll" type="checkbox"/></th>
-                    <th>Function Name</th>
-                    <th>Depth</th>
-                </tr>
-                <tbody id="resultsTableBody">
-
-                </tbody>
-            </table>
+        <div id="sidebarAndContentDiv">
+            <div id="contentDiv">
+                <table id="resultsTable">
+                    <tr>
+                        <th><input id="checkAll" type="checkbox"/></th>
+                        <th>Function Name</th>
+                        <th>Depth</th>
+                    </tr>
+                    <tbody id="resultsTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div id="sidebar">
+                <input type="image" src="../assets/information-circle.svg" title="Information" id="infoBtn" width="25" height="25">
+                <div id="infoPage">
+                    <h1><u>Info</u></h1>
+                    <h2>What is XSS?</h2>
+                    <p>XSS attacks are a type of injection, in which malicious scripts are injected into otherwise trusted websites.</p>
+                    <hr/>
+                    <h2>So what's DOM Eternal?</h2>
+                    <p>DOM Eternal identifies a specific type of XSS vulnerability that occurs when the DOM (Document Object Model) is mutated by a Javascript function.</p>
+                    <hr/>
+                    <h2>So, how do I use it?</h2>
+                    <ol>
+                        <li>On your desired webpage, open Chrome Devtools (a.k.a. right click in the webpage and click inspect element)</li>
+                        <li>Start recording in DOM Eternal</li>
+                        <li>Select the functions that you want to test for XSS vulnerabilities</li>
+                        <li>Click the dice to start the fuzzer and wait for the results!</li>
+                    </ol>
+                </div>
+                <div id="jsonViewer"></div>
+            </div>
         </div>
     <script src="messaging.js"></script>
     <script src="panel.js"></script>
+    <script src="JsonViewer.js"></script>
     </body>
 </html>
