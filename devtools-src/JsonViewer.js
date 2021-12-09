@@ -33,7 +33,7 @@ var JsonViewer = {
         theme: 'dark',
         container: null,
         data: '{}',
-        expand: false,
+        expand: true,
     },
 
     init: function(container){
@@ -88,14 +88,14 @@ var JsonViewer = {
             }
         });
     },
-    
+
     createItem : function(indent, theme, parent, key, basicType) {
         let self = this;
         let current = this.createElement('div');
         let left = this.createElement('div');
         let right = this.createElement('div');
         let wrap = this.createElement('div');
-    
+
         current.style.marginLeft = indent * 2 + 'px';
         left.innerHTML = `${key}<span class="jv-${theme}-symbol">&nbsp;:&nbsp;</span>`;
         if (basicType) {
@@ -117,7 +117,7 @@ var JsonViewer = {
                 self.toggleItem(nextSibling, e.target.querySelector('span'));
             }
         }
-        
+
         return {
             left,
             right,
@@ -134,7 +134,7 @@ var JsonViewer = {
         let parent = this.options.container;
         let key = 'object';
         let dataObj;
-        
+
         parent.setAttribute('class', theme + 'con');
         try {
             dataObj = JSON.parse(data);

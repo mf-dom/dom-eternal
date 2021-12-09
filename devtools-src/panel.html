@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="panel.css">
 <link rel="stylesheet" href="JsonViewer.css">
-<html style="height: 100%;">
+<html style="height: 100%;overflow: hidden;">
     <body>
         <div class="toolbar">
             <div class="toolSubSection">
@@ -10,9 +10,14 @@
                     <div class="pulsating-circle"></div>
                 </div>
                 <button class="toolItem toolButton" id="stopBtn">Stop</button>
+                <button class="toolItem toolButton" id="fuzzBtn">Instrument Selected</button>
+                <div id="progress">
+                    <div id="progress-bar"></div>
+                </div>
+
             </div>
             <div class="toolSubSection">
-                <button class="toolItem toolButton" id="filterBtn">Filter</button>
+                <!-- <button class="toolItem toolButton" id="filterBtn">Filter</button> -->
                 <input class="toolItem" type="text" placeholder="Search..." id="searchInp"/>
             </div>
             <div class="toolSubSection">
@@ -33,7 +38,6 @@
                 </table>
             </div>
             <div id="sidebar">
-                <input type="image" src="../assets/information-circle.svg" title="Information" id="infoBtn" width="25" height="25">
                 <div id="infoPage">
                     <h1><u>Info</u></h1>
                     <h2>What is XSS?</h2>
@@ -47,7 +51,7 @@
                         <li>On your desired webpage, open Chrome Devtools (a.k.a. right click in the webpage and click inspect element)</li>
                         <li>Start recording in DOM Eternal</li>
                         <li>Select the functions that you want to test for XSS vulnerabilities</li>
-                        <li>Click the dice to start the fuzzer and wait for the results!</li>
+                        <li>Click the instrument button to start the fuzzer and wait for the results!</li>
                     </ol>
                 </div>
                 <div id="jsonViewer"></div>

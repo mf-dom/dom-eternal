@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const filter = document.getElementById("filter-button");
+    // const filter = document.getElementById("filter-button");
     const settings = document.getElementById("settings-button");
     const fuzz = document.getElementById("fuzz-button");
     const search_input = document.getElementById("search-input");
@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const reset_prompt = document.getElementById("reset");
     const resume = document.getElementById("resume-button");
     let data = {};
+    let currentlyAnalyzing = false;
 
     search_input.addEventListener("keyup", function () {
         var input, filter, ul, li, label, i, txtValue;
@@ -33,45 +34,46 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    filter.addEventListener("click", function () {
-        var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-        list = document.getElementById("results-ul");
-        switching = true;
-        dir = "asc";
-        while (switching) {
-            switching = false;
-            b = list.getElementsByTagName("li");
-            for (i = 0; i < (b.length - 1); i++) {
-                shouldSwitch = false;
-                if (dir == "asc") {
-                    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                } else if (dir == "desc") {
-                    if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-            }
-            if (shouldSwitch) {
-                b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                switching = true;
-                switchcount++;
-            } else {
-                if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                }
-            }
-        }
-    });
+    // filter.addEventListener("click", function () {
+    //     var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+    //     list = document.getElementById("results-ul");
+    //     switching = true;
+    //     dir = "asc";
+    //     while (switching) {
+    //         switching = false;
+    //         b = list.getElementsByTagName("li");
+    //         for (i = 0; i < (b.length - 1); i++) {
+    //             shouldSwitch = false;
+    //             if (dir == "asc") {
+    //                 if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+    //                     shouldSwitch = true;
+    //                     break;
+    //                 }
+    //             } else if (dir == "desc") {
+    //                 if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+    //                     shouldSwitch = true;
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //         if (shouldSwitch) {
+    //             b[i].parentNode.insertBefore(b[i + 1], b[i]);
+    //             switching = true;
+    //             switchcount++;
+    //         } else {
+    //             if (switchcount == 0 && dir == "asc") {
+    //                 dir = "desc";
+    //                 switching = true;
+    //             }
+    //         }
+    //     }
+    // });
 
     fuzz.addEventListener("click", function () {
         if (data.functions && data.functions.length > 0) {
             const checkedState = [...document.getElementById("results-ul").children].map(node => node.firstChild.firstChild.checked);
             if (checkedState.some(a => a)) {
+                currentlyAnalyzing = true;
                 const functionsWithSelections = data.functions.map((func, index) => ({...func, selected: checkedState[index]}));
                 sendObjectFromPopup({"action": "startAnalysis", functionsWithSelections});
                 document.getElementById('results-list').style.display = "none";
@@ -79,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('topthing').style.pointerEvents = "none";
                 document.getElementById('topthing').style.cursor = "not-allowed";
                 document.getElementById('progress').style.display = "block";
-                document.getElementById('progress-bar').style.animationDirection = `${checkedState.filter(a => a).length * 2.5}s`;
+                document.getElementById('progress-bar').style.animationDuration = `${checkedState.filter(a => a).length * 2.5}s`;
                 setTimeout(() => {
                     window.location.href = "report.html";
                 }, checkedState.filter(a => a).length * 2500);
@@ -117,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         data = message.data;
 
-        if (data.functions && data.functions.length > 0) {
+        if (data.functions) {
             while (document.getElementById("results-ul").firstChild) {
                 document.getElementById("results-ul").removeChild(document.getElementById("results-ul").firstChild);
             }
@@ -134,9 +136,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 li.appendChild(label);
                 document.getElementById("results-ul").appendChild(li);
             });
+
+            if (data.functions.length === 0) {
+                window.location.href = "popup.html";
+            }
         } else {
             document.getElementById("results-list").style.display = "none";
             document.getElementById("no-results").style.display = "block";
+        }
+
+        if (data && data.doneAnalyzing) {
+            if (currentlyAnalyzing === true) return;
+            window.location.href = "report.html";
         }
 
     });

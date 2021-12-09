@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const record = document.getElementById('recordbtn');
     const stop = document.getElementById('stopbtn');
-    const settings = document.getElementById('settings');
+    // const settings = document.getElementById('settings');
     const info = document.getElementById("info");
+    // const popout = document.getElementById("popoutbtn");
 
     function showRecordingState() {
         record.style.cursor = "not-allowed";
@@ -47,13 +48,18 @@ document.addEventListener("DOMContentLoaded", function () {
         sendObjectFromPopup({ action: "stop" });
     });
 
-    settings.addEventListener("click", function () {
-        chrome.runtime.openOptionsPage();
-    });
+    // settings.addEventListener("click", function () {
+    //     chrome.runtime.openOptionsPage();
+    // });
 
     info.addEventListener("click", function () {
         window.location.href = "info.html";
     });
+
+    // popout.addEventListener("click", function () {
+    //     window.open("./popup.html", "DOM Eternal", "popup,width=268,height=440");
+    //     window.close();
+    // });
 
     if (!localStorage.getItem("startupInfo")) {
         localStorage.setItem("startupInfo", true);

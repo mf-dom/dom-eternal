@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let data = {};
 
     home.addEventListener("click", function() {
+        sendObjectFromPopup({action: "resetAnalysis"});
         window.location.href = "popup.html";
     });
 

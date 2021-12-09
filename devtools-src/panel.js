@@ -29,19 +29,17 @@ window.onload = function(e){
     const reset = document.getElementById('deleteBtn');
     const search = document.getElementById('searchInp');
     const download = document.getElementById('exportBtn');
-    const filter = document.getElementById('filterBtn');
+    // const filter = document.getElementById('filterBtn');
+    const fuzz = document.getElementById('fuzzBtn');
 
     search.addEventListener('change',SearchNames);
     document.getElementById("checkAll").addEventListener('change',function(){
         var chks = document.getElementsByClassName("resultsCheckBox");
         Array.prototype.forEach.call(chks,function(chk){chk.checked = document.getElementById("checkAll").checked;});
     });
-    document.getElementById('infoBtn').addEventListener('click',function(){
-        document.getElementById('infoPage').style.display = "";
-        document.getElementById('jsonViewer').style.display = "none";
-    });
 
     let data = {};
+    let currentlyAnalyzing = false;
 
     JsonViewer.init(document.getElementById('jsonViewer'));
 
@@ -49,6 +47,8 @@ window.onload = function(e){
     record.disabled = false;
     stop.style.cursor = "not-allowed";
     stop.disabled = true;
+    fuzz.style.cursor = "not-allowed";
+    fuzz.disabled = true;
 
     function showRecordingState() {
         record.style.cursor = "not-allowed";
@@ -56,6 +56,8 @@ window.onload = function(e){
         record.disabled = true;
         stop.style.cursor = "auto";
         stop.disabled = false;
+        fuzz.style.cursor = "not-allowed";
+        fuzz.disabled = true;
         document.getElementsByClassName('pulsating-circle')[0].style.display = "block";
     }
 
@@ -66,6 +68,11 @@ window.onload = function(e){
         stop.style.cursor = "not-allowed";
         stop.disabled = true;
         document.getElementsByClassName('pulsating-circle')[0].style.display = "none";
+
+        if (data && data.functions && data.functions.length > 0) {
+            fuzz.style.cursor = "auto";
+            fuzz.disabled = false;
+        }
     }
 
     record.addEventListener("click", function() {
@@ -90,6 +97,51 @@ window.onload = function(e){
     reset.addEventListener("click", function() {
         sendObjectFromDevTools({action: "reset"});
         showStoppedState();
+        document.getElementById('infoPage').style.display = "block";
+        document.getElementById('jsonViewer').style.display = "none";
+        sendObjectFromDevTools({action: "getData"});
+    });
+
+    fuzz.addEventListener("click", function () {
+        currentlyAnalyzing = true;
+        if (data.functions && data.functions.length > 0) {
+            const checkedState = [...document.getElementsByClassName("resultsCheckBox")].map(node => node.checked);
+            if (checkedState.some(a => a)) {
+                const functionsWithSelections = data.functions.map((func, index) => ({...func, selected: checkedState[index]}));
+                sendObjectFromDevTools({"action": "startAnalysis", functionsWithSelections});
+                document.getElementById('fuzzBtn').style.display = "none";
+                fuzz.style.opacity = "50%";
+                record.style.cursor = "not-allowed";
+                record.disabled = true;
+                document.getElementById('progress').style.display = "block";
+                document.getElementById('progress-bar').style.animationDuration = `${checkedState.filter(a => a).length * 2.5}s`;
+                setTimeout(() => {
+                    document.getElementById('progress').style.display = "none";
+                    document.getElementById('fuzzBtn').style.display = "block";
+                    record.style.cursor = "auto";
+                    record.disabled = false;
+                    currentlyAnalyzing = false;
+                    sendObjectFromDevTools({action: "getData"});
+                }, checkedState.filter(a => a).length * 2500);
+            } else {
+                window.alert("Please select at least one function.");
+            }
+        } else {
+            window.alert("The tool hasn't recorded any functions to fuzz yet - try resuming recording to gather more data.");
+        }
+    });
+
+    download.addEventListener("click", function () {
+        if (data && data.functions && data.functions.length > 0 || data.mutations && data.mutations.length > 0) {
+            const exportData = {rawMutations: data.mutations, parsedFunctions: data.functions};
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, "\t"));
+            const dummyA = document.createElement('a');
+            dummyA.setAttribute("href", dataStr);
+            dummyA.setAttribute("download", "DOM-Eternal_Export.json");
+            dummyA.click();
+        } else {
+            alert("No data to export yet!");
+        }
     });
 
     chrome.extension.onMessage.addListener(function (message, sender) {
@@ -99,16 +151,23 @@ window.onload = function(e){
 
         data = message.data;
 
-        if (data && data.functions && data.functions.length > 0) {
+        if (data && data.functions) {
+            if (currentlyAnalyzing === true) return;
+
             DeleteAllResults();
 
             data.functions.forEach(func => {
                 let newRow = document.createElement("tr");
 
-                let chkCol = document.createElement("td");;
+                if (func.vulnerable) {
+                    newRow.classList.add("vulnerable");
+                }
+
+                let chkCol = document.createElement("td");
                 let chk = document.createElement("input");
                 chk.type = "checkbox";
                 chk.classList.add("resultsCheckBox");
+                chk.checked = func.selected || false;
                 chkCol.appendChild(chk);
                 newRow.appendChild(chkCol);
 
@@ -131,7 +190,7 @@ window.onload = function(e){
             });
         }
 
-            if (data && data.recording) {
+        if (data && data.recording) {
             showRecordingState();
         }
 

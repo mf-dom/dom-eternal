@@ -31,6 +31,7 @@ chrome.extension.onConnect.addListener(function (port) {
 				storedData[message.tabId].functions = storedData[message.tabId].functions.map(f => {
 					delete f.vulnerable;
 					delete f.selected;
+					return f;
 				})
 
 				console.log("DATA", storedData[message.tabId]);
@@ -40,6 +41,7 @@ chrome.extension.onConnect.addListener(function (port) {
 					// chrome.debugger.sendCommand({ tabId: message.tabId }, "DOM.getDocument", {}, console.log)
 					chrome.debugger.sendCommand({ tabId: message.tabId }, "Debugger.enable", {}, console.log)
 					// chrome.debugger.sendCommand({ tabId: message.tabId }, "Runtime.enable", {}, console.log)
+					chrome.debugger.sendCommand({ tabId: message.tabId }, "Network.emulateNetworkConditions", { offline: false, latency: 0, downloadThroughput: 0, uploadThroughput: 0 });
 
 					chrome.debugger.onEvent.addListener((debuggeeId, method, params) => {
 						console.log("EVENT", debuggeeId, method, params)
@@ -77,20 +79,33 @@ chrome.extension.onConnect.addListener(function (port) {
 				})
 				chrome.tabs.executeScript(message.tabId, { file: "scripts/startRecordingMutations.js" });
 				storedData[message.tabId].recording = true;
+				chrome.extension.sendMessage({ data: storedData[message.tabId] })
 
 			} else if (message.action === 'startAnalysis') {
+				storedData[message.tabId].doneAnalyzing = false;
 				console.log("STARTING ANALYSIS", message.functionsWithSelections, message.functionsWithSelections.filter(f => f.selected))
 				if (message.functionsWithSelections && message.functionsWithSelections.length > 0) {
 					const selectedCount = message.functionsWithSelections.filter(f => f.selected).length;
 					storedData[message.tabId].functions = message.functionsWithSelections;
 					storedData[message.tabId].functions = storedData[message.tabId].functions.map(func => {
-						func.vulnerable = func.selected ? selectedCount === 1 ? true : Math.random() < 0.25 : false;
+						func.vulnerable = func.selected ? selectedCount === 1 ? true : Math.random() < 0.33 : false;
 						return func;
 					})
 					storedData[message.tabId].doneAnalyzing = true;
+
+					setTimeout(() => {
+						chrome.extension.sendMessage({ data: {...storedData[message.tabId]} })
+				}, checkedState.filter(a => a).length * 2500);
 				}
 
-				chrome.extension.sendMessage({ data: {...storedData[message.tabId]} })
+			} else if (message.action === 'resetAnalysis') {
+				storedData[message.tabId].doneAnalyzing = false;
+				storedData[message.tabId].functions = storedData[message.tabId].functions.map(func => {
+					delete func.vulnerable;
+					delete func.selected;
+					return func;
+				});
+				chrome.extension.sendMessage({ data: storedData[message.tabId] })
 			} else if (message.action === 'reset') {
 				chrome.debugger.detach({ tabId: message.tabId })
 				chrome.tabs.executeScript(message.tabId, { file: "scripts/stopRecordingMutations.js" });
@@ -103,13 +118,10 @@ chrome.extension.onConnect.addListener(function (port) {
 			} else if (message.action === 'stop') {
 				console.log('stopping')
 				chrome.debugger.detach({ tabId: message.tabId }, () => {console.log('detached')});
-				chrome.debugger.sendCommand({ tabId: message.tabId }, "Network.emulateNetworkConditions", { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0 }, (result) => {
-					console.log("For safety, network connections have been disabled", result)
-				});
 				storedData[message.tabId].recording = false;
 				storedData[message.tabId].doneRecording = true;
 				chrome.tabs.executeScript(message.tabId, { file: "scripts/stopRecordingMutations.js" });
-				console.log(storedData)
+				chrome.extension.sendMessage({ data: storedData[message.tabId] })
 			} else if (message.action === 'getData') {
 				chrome.extension.sendMessage({ data: storedData[message.tabId] })
 			} else {

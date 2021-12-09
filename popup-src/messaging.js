@@ -24,3 +24,5 @@ function sendObjectFromPopup(message) {
 			chrome.extension.sendMessage(message);
 	});
 }
+
+document.title = "DOM Eternal";
